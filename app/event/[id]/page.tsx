@@ -26,7 +26,6 @@ export default function EventPage() {
     removeFamily,
   } = useBBQStore()
 
-  // Initial data load
   useEffect(() => {
     if (!eventId) return
     setLoading(true)
@@ -69,7 +68,6 @@ export default function EventPage() {
     load()
   }, [eventId])
 
-  // Realtime subscriptions
   useEffect(() => {
     if (!eventId) return
 
@@ -101,10 +99,10 @@ export default function EventPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-orange-50 flex items-center justify-center">
+      <div className="min-h-screen bg-violet-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="text-5xl mb-4 animate-bounce">🍖</div>
-          <p className="text-gray-500 text-lg">טוען את האירוע...</p>
+          <div className="text-5xl mb-4 animate-bounce">🛒</div>
+          <p className="text-violet-500 text-lg">טוען את האירוע...</p>
         </div>
       </div>
     )
@@ -112,11 +110,11 @@ export default function EventPage() {
 
   if (notFound) {
     return (
-      <div className="min-h-screen bg-orange-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-violet-50 flex items-center justify-center p-4">
         <div className="text-center">
           <div className="text-6xl mb-4">🔍</div>
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">אירוע לא נמצא</h1>
-          <p className="text-gray-500 mb-6">הקישור שהגעת ממנו כבר לא בתוקף</p>
+          <h1 className="text-2xl font-bold text-violet-900 mb-2">אירוע לא נמצא</h1>
+          <p className="text-violet-500 mb-6">הקישור שהגעת ממנו כבר לא בתוקף</p>
           <a href="/" className="btn-primary inline-block">חזרה לדף הראשי</a>
         </div>
       </div>
@@ -124,7 +122,7 @@ export default function EventPage() {
   }
 
   return (
-    <div className="min-h-screen bg-orange-50 flex flex-col">
+    <div className="min-h-screen bg-violet-50 flex flex-col">
       <Header event={currentEvent!} eventId={eventId} />
       <main className="flex-1 max-w-7xl mx-auto w-full px-4 py-6">
         <EventBoard eventId={eventId} />

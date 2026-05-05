@@ -34,14 +34,13 @@ export default function FamilyDropZone({ family, items }: FamilyDropZoneProps) {
         boxShadow: isOver ? `0 0 0 3px ${family.color}40` : undefined,
       }}
     >
-      {/* Family header */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <div
             className="w-4 h-4 rounded-full flex-shrink-0"
             style={{ backgroundColor: family.color }}
           />
-          <h3 className="font-bold text-gray-800">{family.name}</h3>
+          <h3 className="font-bold text-violet-900">{family.name}</h3>
           <span
             className="text-xs px-2 py-0.5 rounded-full font-semibold"
             style={{ backgroundColor: family.color + '25', color: family.color }}
@@ -51,7 +50,7 @@ export default function FamilyDropZone({ family, items }: FamilyDropZoneProps) {
         </div>
         <button
           onClick={handleRemoveFamily}
-          className="text-gray-300 hover:text-red-400 hover:bg-red-50
+          className="text-violet-200 hover:text-rose-500 hover:bg-rose-50
                      w-6 h-6 flex items-center justify-center rounded-lg
                      transition-colors text-xs"
           title="הסר משפחה"
@@ -60,7 +59,6 @@ export default function FamilyDropZone({ family, items }: FamilyDropZoneProps) {
         </button>
       </div>
 
-      {/* Drop zone */}
       <div className="min-h-[80px] space-y-2">
         {items.length === 0 ? (
           <div

@@ -53,8 +53,9 @@ export default function Header({ event, eventId }: HeaderProps) {
           <button
             onClick={copyLink}
             className="flex-shrink-0 flex items-center gap-2
-                       bg-white/20 hover:bg-white/30 active:bg-white/40
-                       px-4 py-2 rounded-xl transition-colors text-sm font-medium"
+                       bg-white/15 hover:bg-white/25 active:bg-white/35
+                       border border-white/20 hover:border-white/40
+                       px-4 py-2 rounded-xl transition-all text-sm font-medium"
           >
             {copied ? '✅ הועתק!' : '🔗 שתף'}
           </button>
