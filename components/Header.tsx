@@ -31,22 +31,22 @@ export default function Header({ event, eventId }: HeaderProps) {
   }
 
   return (
-    <header className="bg-orange-500 text-white shadow-lg">
+    <header className="bg-gradient-to-br from-violet-600 to-indigo-700 text-white shadow-lg">
       <div className="max-w-7xl mx-auto px-4 py-4">
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-center gap-3">
             <a
               href="/"
-              className="text-orange-200 hover:text-white text-sm transition-colors
+              className="text-violet-200 hover:text-white text-sm transition-colors
                          hidden sm:inline-flex items-center gap-1"
             >
-              ← כל האירועים
+              ← כל הרשימות
             </a>
             <div>
               <h1 className="text-2xl font-bold flex items-center gap-2">
-                🔥 {event.name}
+                🛒 {event.name}
               </h1>
-              <p className="text-orange-200 text-sm mt-0.5">{formatDate(event.date)}</p>
+              <p className="text-violet-200 text-sm mt-0.5">{formatDate(event.date)}</p>
             </div>
           </div>
 

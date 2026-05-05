@@ -15,6 +15,8 @@ export default function HomePage() {
   const [date, setDate] = useState('')
   const [creating, setCreating] = useState(false)
   const [createError, setCreateError] = useState<string | null>(null)
+  const [confirmDeleteEvent, setConfirmDeleteEvent] = useState<BBQEvent | null>(null)
+  const [deleting, setDeleting] = useState(false)
 
   useEffect(() => {
     loadEvents()
@@ -54,6 +56,19 @@ export default function HomePage() {
     }
   }
 
+  async function handleDelete() {
+    if (!confirmDeleteEvent) return
+    setDeleting(true)
+    const { error } = await supabase.from('events').delete().eq('id', confirmDeleteEvent.id)
+    if (!error) {
+      setEvents(events.filter((e) => e.id !== confirmDeleteEvent.id))
+    } else {
+      console.error('Delete error:', error)
+    }
+    setDeleting(false)
+    setConfirmDeleteEvent(null)
+  }
+
   const formatDate = (d: string) =>
     new Date(d).toLocaleDateString('he-IL', {
       weekday: 'long',
@@ -63,55 +78,88 @@ export default function HomePage() {
     })
 
   return (
-    <div className="min-h-screen bg-orange-50">
-      <header className="bg-orange-500 text-white shadow-lg">
+    <div className="min-h-screen bg-violet-50">
+      <header className="bg-gradient-to-br from-violet-600 to-indigo-700 text-white shadow-lg">
         <div className="max-w-2xl mx-auto px-4 py-6 text-center">
-          <div className="text-5xl mb-2">🔥</div>
-          <h1 className="text-3xl font-bold">על האש</h1>
-          <p className="text-orange-200 mt-1">תכנון BBQ משפחתי</p>
+          <div className="text-5xl mb-2">🛒</div>
+          <h1 className="text-3xl font-bold tracking-tight">
+            shop<span className="font-light">Share</span>
+          </h1>
+          <p className="text-violet-200 mt-1">רשימת קניות שיתופית</p>
         </div>
       </header>
 
       <main className="max-w-2xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-gray-800">האירועים שלי</h2>
+          <h2 className="text-xl font-bold text-gray-800">הרשימות שלי</h2>
           <button onClick={() => setShowCreate(true)} className="btn-primary flex items-center gap-2">
-            <span>+</span> אירוע חדש
+            <span>+</span> רשימה חדשה
           </button>
         </div>
 
         {loading ? (
           <div className="text-center py-16 text-gray-400">
-            <div className="text-4xl mb-3 animate-bounce">🍖</div>
+            <div className="text-4xl mb-3 animate-bounce">🛒</div>
             <p>טוען...</p>
           </div>
         ) : events.length === 0 ? (
           <div className="card p-12 text-center">
-            <div className="text-5xl mb-4">🏕️</div>
-            <h3 className="text-xl font-bold text-gray-700 mb-2">אין אירועים עדיין</h3>
-            <p className="text-gray-500 mb-6">צור את אירוע ה-BBQ הראשון שלך!</p>
-            <button onClick={() => setShowCreate(true)} className="btn-primary">צור אירוע</button>
+            <div className="text-5xl mb-4">🛍️</div>
+            <h3 className="text-xl font-bold text-gray-700 mb-2">אין רשימות עדיין</h3>
+            <p className="text-gray-500 mb-6">צור את הרשימה הראשונה שלך!</p>
+            <button onClick={() => setShowCreate(true)} className="btn-primary">צור רשימה</button>
           </div>
         ) : (
           <div className="space-y-3">
             {events.map((ev) => (
-              <Link key={ev.id} href={`/event/${ev.id}`}
-                className="card p-5 flex items-center justify-between hover:shadow-md transition-all duration-200 group">
-                <div>
-                  <h3 className="font-bold text-gray-800 text-lg group-hover:text-orange-600 transition-colors">{ev.name}</h3>
-                  <p className="text-sm text-gray-500 mt-0.5">{formatDate(ev.date)}</p>
-                </div>
-                <div className="text-2xl group-hover:translate-x-1 transition-transform">🔥</div>
-              </Link>
+              <div key={ev.id} className="card flex items-stretch hover:shadow-md transition-all duration-200 group overflow-hidden">
+                <Link href={`/event/${ev.id}`} className="flex-1 p-5 flex items-center justify-between">
+                  <div>
+                    <h3 className="font-bold text-gray-800 text-lg group-hover:text-violet-600 transition-colors">{ev.name}</h3>
+                    <p className="text-sm text-gray-500 mt-0.5">{formatDate(ev.date)}</p>
+                  </div>
+                  <div className="text-2xl mx-3 group-hover:scale-110 transition-transform">🛒</div>
+                </Link>
+                <button
+                  onClick={() => setConfirmDeleteEvent(ev)}
+                  className="px-4 text-gray-300 hover:text-red-500 hover:bg-red-50 border-r border-gray-100 transition-colors opacity-0 group-hover:opacity-100"
+                  title="מחק רשימה"
+                >
+                  🗑️
+                </button>
+              </div>
             ))}
           </div>
         )}
       </main>
 
+      {confirmDeleteEvent && (
+        <div className="modal-overlay" onClick={() => setConfirmDeleteEvent(null)}>
+          <div className="modal-box" onClick={(e) => e.stopPropagation()}>
+            <h2 className="text-xl font-bold text-gray-800 mb-2">מחיקת רשימה</h2>
+            <p className="text-gray-600 mb-6">
+              בטוח שרוצה למחוק את <span className="font-semibold text-gray-800">{confirmDeleteEvent.name}</span>?
+              <br />
+              <span className="text-sm text-red-500">הפעולה לא ניתנת לביטול.</span>
+            </p>
+            <div className="flex gap-3">
+              <button onClick={() => setConfirmDeleteEvent(null)} className="btn-ghost flex-1">ביטול</button>
+              <button
+                onClick={handleDelete}
+                disabled={deleting}
+                className="flex-1 px-6 py-2 bg-red-500 text-white rounded-xl font-semibold hover:bg-red-600 active:bg-red-700 disabled:opacity-50 transition-all duration-150 shadow-sm"
+              >
+                {deleting ? 'מוחק...' : 'מחק'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {showCreate && (
         <div className="modal-overlay" onClick={() => setShowCreate(false)}>
           <div className="modal-box" onClick={(e) => e.stopPropagation()}>
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">אירוע חדש 🔥</h2>
+            <h2 className="text-2xl font-bold text-gray-800 mb-6">רשימה חדשה 🛍️</h2>
             {createError && (
               <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
                 <strong>Error:</strong> {createError}
@@ -121,9 +169,9 @@ export default function HomePage() {
             )}
             <form onSubmit={handleCreate} className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">שם האירוע</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-1.5">שם הרשימה</label>
                 <input type="text" value={name} onChange={(e) => setName(e.target.value)}
-                  placeholder="למשל: על האש בפארק" className="form-input" autoFocus required />
+                  placeholder="למשל: קניות לפסח" className="form-input" autoFocus required />
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1.5">תאריך</label>
@@ -133,7 +181,7 @@ export default function HomePage() {
               <div className="flex gap-3 pt-2">
                 <button type="button" onClick={() => setShowCreate(false)} className="btn-ghost flex-1">ביטול</button>
                 <button type="submit" disabled={creating || !name.trim() || !date} className="btn-primary flex-1">
-                  {creating ? 'יוצר...' : 'צור אירוע'}
+                  {creating ? 'יוצר...' : 'צור רשימה'}
                 </button>
               </div>
             </form>

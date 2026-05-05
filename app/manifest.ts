@@ -2,13 +2,13 @@ import { MetadataRoute } from 'next'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'על האש - תכנון BBQ משפחתי',
-    short_name: 'על האש',
-    description: 'מערכת תכנון אירוע BBQ משפחתי עם רשימת קניות שיתופית בזמן אמת',
+    name: 'shopShare - רשימת קניות שיתופית',
+    short_name: 'shopShare',
+    description: 'רשימת קניות שיתופית בזמן אמת לאירועים משפחתיים',
     start_url: '/',
     display: 'standalone',
-    background_color: '#fff7ed',
-    theme_color: '#f97316',
+    background_color: '#f5f3ff',
+    theme_color: '#7c3aed',
     orientation: 'portrait-primary',
     lang: 'he',
     dir: 'rtl',

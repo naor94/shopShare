@@ -12,14 +12,14 @@ const notoHebrew = Noto_Sans_Hebrew({
 })
 
 export const metadata: Metadata = {
-  title: 'על האש - תכנון BBQ משפחתי',
-  description: 'מערכת תכנון אירוע BBQ משפחתי עם רשימת קניות שיתופית בזמן אמת',
-  appleWebApp: { capable: true, statusBarStyle: 'default', title: 'על האש' },
+  title: 'shopShare - רשימת קניות שיתופית',
+  description: 'רשימת קניות שיתופית בזמן אמת לאירועים משפחתיים',
+  appleWebApp: { capable: true, statusBarStyle: 'default', title: 'shopShare' },
   icons: { apple: '/icons/icon-192x192.png', icon: '/icons/icon-192x192.png' },
 }
 
 export const viewport: Viewport = {
-  themeColor: '#f97316',
+  themeColor: '#7c3aed',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
@@ -54,7 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }
         `}</Script>
       </head>
-      <body className={`${notoHebrew.variable} font-sans h-full bg-orange-50 text-gray-900`}>
+      <body className={`${notoHebrew.variable} font-sans h-full bg-violet-50 text-gray-900`}>
         {children}
         <ServiceWorkerRegistration />
       </body>
