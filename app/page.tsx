@@ -78,51 +78,51 @@ export default function HomePage() {
     })
 
   return (
-    <div className="min-h-screen bg-violet-50">
-      <header className="bg-gradient-to-br from-violet-600 to-indigo-700 text-white shadow-lg">
+    <div className="min-h-screen bg-amber-50">
+      <header className="bg-gradient-to-br from-orange-400 to-amber-500 text-white shadow-md">
         <div className="max-w-2xl mx-auto px-4 py-6 text-center">
           <div className="text-5xl mb-2">🛒</div>
           <h1 className="text-3xl font-bold tracking-tight">
             shop<span className="font-light">Share</span>
           </h1>
-          <p className="text-violet-200 mt-1">רשימת קניות שיתופית</p>
+          <p className="text-orange-100 mt-1">רשימת קניות שיתופית</p>
         </div>
       </header>
 
       <main className="max-w-2xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-violet-900">הרשימות שלי</h2>
+          <h2 className="text-xl font-bold text-gray-800">הרשימות שלי</h2>
           <button onClick={() => setShowCreate(true)} className="btn-primary flex items-center gap-2">
             <span>+</span> רשימה חדשה
           </button>
         </div>
 
         {loading ? (
-          <div className="text-center py-16 text-violet-300">
+          <div className="text-center py-16 text-gray-400">
             <div className="text-4xl mb-3 animate-bounce">🛒</div>
             <p>טוען...</p>
           </div>
         ) : events.length === 0 ? (
           <div className="card p-12 text-center">
             <div className="text-5xl mb-4">🛍️</div>
-            <h3 className="text-xl font-bold text-violet-800 mb-2">אין רשימות עדיין</h3>
-            <p className="text-violet-500 mb-6">צור את הרשימה הראשונה שלך!</p>
+            <h3 className="text-xl font-bold text-gray-700 mb-2">אין רשימות עדיין</h3>
+            <p className="text-gray-500 mb-6">צור את הרשימה הראשונה שלך!</p>
             <button onClick={() => setShowCreate(true)} className="btn-primary">צור רשימה</button>
           </div>
         ) : (
           <div className="space-y-3">
             {events.map((ev) => (
-              <div key={ev.id} className="card flex items-stretch hover:shadow-md hover:border-violet-200 transition-all duration-200 group overflow-hidden">
-                <Link href={`/event/${ev.id}`} className="flex-1 p-5 flex items-center justify-between hover:bg-violet-50/40 transition-colors">
+              <div key={ev.id} className="card flex items-stretch hover:shadow-md hover:border-orange-200 transition-all duration-200 group overflow-hidden">
+                <Link href={`/event/${ev.id}`} className="flex-1 p-5 flex items-center justify-between hover:bg-orange-50/50 transition-colors">
                   <div>
-                    <h3 className="font-bold text-violet-900 text-lg group-hover:text-violet-600 transition-colors">{ev.name}</h3>
-                    <p className="text-sm text-violet-500 mt-0.5">{formatDate(ev.date)}</p>
+                    <h3 className="font-bold text-gray-800 text-lg group-hover:text-orange-600 transition-colors">{ev.name}</h3>
+                    <p className="text-sm text-gray-500 mt-0.5">{formatDate(ev.date)}</p>
                   </div>
                   <div className="text-2xl mx-3 group-hover:scale-110 transition-transform">🛒</div>
                 </Link>
                 <button
                   onClick={() => setConfirmDeleteEvent(ev)}
-                  className="px-4 text-violet-200 hover:text-rose-500 hover:bg-rose-50 border-r border-violet-100 transition-colors opacity-0 group-hover:opacity-100"
+                  className="px-4 text-gray-300 hover:text-rose-500 hover:bg-rose-50 border-r border-orange-100 transition-colors opacity-0 group-hover:opacity-100"
                   title="מחק רשימה"
                 >
                   🗑️
@@ -136,9 +136,9 @@ export default function HomePage() {
       {confirmDeleteEvent && (
         <div className="modal-overlay" onClick={() => setConfirmDeleteEvent(null)}>
           <div className="modal-box" onClick={(e) => e.stopPropagation()}>
-            <h2 className="text-xl font-bold text-violet-900 mb-2">מחיקת רשימה</h2>
-            <p className="text-violet-700 mb-6">
-              בטוח שרוצה למחוק את <span className="font-semibold text-violet-900">{confirmDeleteEvent.name}</span>?
+            <h2 className="text-xl font-bold text-gray-800 mb-2">מחיקת רשימה</h2>
+            <p className="text-gray-600 mb-6">
+              בטוח שרוצה למחוק את <span className="font-semibold text-gray-800">{confirmDeleteEvent.name}</span>?
               <br />
               <span className="text-sm text-rose-500">הפעולה לא ניתנת לביטול.</span>
             </p>
@@ -159,7 +159,7 @@ export default function HomePage() {
       {showCreate && (
         <div className="modal-overlay" onClick={() => setShowCreate(false)}>
           <div className="modal-box" onClick={(e) => e.stopPropagation()}>
-            <h2 className="text-2xl font-bold text-violet-900 mb-6">רשימה חדשה 🛍️</h2>
+            <h2 className="text-2xl font-bold text-gray-800 mb-6">רשימה חדשה 🛍️</h2>
             {createError && (
               <div className="mb-4 p-3 bg-rose-50 border border-rose-200 rounded-xl text-rose-700 text-sm">
                 <strong>Error:</strong> {createError}
@@ -169,12 +169,12 @@ export default function HomePage() {
             )}
             <form onSubmit={handleCreate} className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-violet-700 mb-1.5">שם הרשימה</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-1.5">שם הרשימה</label>
                 <input type="text" value={name} onChange={(e) => setName(e.target.value)}
                   placeholder="למשל: קניות לפסח" className="form-input" autoFocus required />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-violet-700 mb-1.5">תאריך</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-1.5">תאריך</label>
                 <input type="date" value={date} onChange={(e) => setDate(e.target.value)}
                   className="form-input" required />
               </div>

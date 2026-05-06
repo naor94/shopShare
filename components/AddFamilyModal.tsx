@@ -37,12 +37,12 @@ export default function AddFamilyModal({ eventId, onClose }: AddFamilyModalProps
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-box" onClick={(e) => e.stopPropagation()}>
-        <h2 className="text-xl font-bold text-gray-800 mb-5">הוסף משפחה 👨‍👩‍👧‍👦</h2>
+        <h2 className="text-xl font-bold text-gray-800 mb-5">הוסף משתתף 👤</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1.5">שם המשפחה</label>
+            <label className="block text-sm font-semibold text-gray-700 mb-1.5">שם</label>
             <input type="text" value={name} onChange={(e) => setName(e.target.value)}
-              placeholder="למשל: משפחת כהן" className="form-input" autoFocus required />
+              placeholder="למשל: דני" className="form-input" autoFocus required />
           </div>
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">צבע</label>
@@ -64,12 +64,12 @@ export default function AddFamilyModal({ eventId, onClose }: AddFamilyModalProps
           <div className="rounded-xl p-3 flex items-center gap-2 border-2 transition-all"
             style={{ borderColor: selectedColor, backgroundColor: selectedColor + '15' }}>
             <div className="w-3 h-3 rounded-full" style={{ backgroundColor: selectedColor }} />
-            <span className="font-semibold text-gray-700">{name || 'שם המשפחה'}</span>
+            <span className="font-semibold text-gray-700">{name || 'שם המשתתף'}</span>
           </div>
           <div className="flex gap-3 pt-1">
             <button type="button" onClick={onClose} className="btn-ghost flex-1">ביטול</button>
             <button type="submit" disabled={loading || !name.trim()} className="btn-primary flex-1">
-              {loading ? 'מוסיף...' : 'הוסף משפחה'}
+              {loading ? 'מוסיף...' : 'הוסף'}
             </button>
           </div>
         </form>

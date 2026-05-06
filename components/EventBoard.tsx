@@ -81,13 +81,13 @@ export default function EventBoard({ eventId }: EventBoardProps) {
     >
       {items.length > 0 && (
         <div className="mb-6">
-          <div className="flex items-center justify-between text-sm text-violet-500 mb-1.5">
+          <div className="flex items-center justify-between text-sm text-gray-500 mb-1.5">
             <span>{assigned.length} מתוך {items.length} פריטים שויכו</span>
-            <span className="font-semibold text-violet-600">{progress}%</span>
+            <span className="font-semibold text-orange-600">{progress}%</span>
           </div>
-          <div className="w-full bg-violet-100 rounded-full h-2.5">
+          <div className="w-full bg-orange-100 rounded-full h-2">
             <div
-              className="bg-violet-600 h-2.5 rounded-full transition-all duration-500"
+              className="bg-amber-400 h-2 rounded-full transition-all duration-500"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -103,11 +103,11 @@ export default function EventBoard({ eventId }: EventBoardProps) {
         </button>
         <button
           onClick={() => setShowAddFamily(true)}
-          className="px-5 py-2 bg-white border-2 border-violet-400 text-violet-600
-                     rounded-xl font-semibold hover:bg-violet-50 active:bg-violet-100
+          className="px-5 py-2 bg-white border border-orange-200 text-orange-700
+                     rounded-xl font-semibold hover:bg-orange-50 active:bg-orange-100
                      transition-all duration-150 shadow-sm flex items-center gap-2"
         >
-          <span>👨‍👩‍👧‍👦</span> הוסף משפחה
+          <span>👤</span> הוסף משתתף
         </button>
       </div>
 
@@ -118,16 +118,16 @@ export default function EventBoard({ eventId }: EventBoardProps) {
 
         <div className="lg:col-span-2">
           <div className="flex items-center gap-2 mb-4">
-            <h2 className="text-xl font-bold text-violet-900">מי מביא מה</h2>
-            <span className="text-sm text-violet-400">({families.length} משפחות)</span>
+            <h2 className="text-xl font-bold text-gray-800">מי מביא מה</h2>
+            <span className="text-sm text-gray-400">({families.length} משתתפים)</span>
           </div>
 
           {families.length === 0 ? (
             <div className="card p-10 text-center">
-              <div className="text-4xl mb-3">👨‍👩‍👧‍👦</div>
-              <p className="text-violet-500 mb-4">עדיין אין משפחות. הוסף משפחה כדי להתחיל לשייך פריטים!</p>
+              <div className="text-4xl mb-3">👤</div>
+              <p className="text-gray-500 mb-4">עדיין אין משתתפים. הוסף משתתף כדי להתחיל לשייך פריטים!</p>
               <button onClick={() => setShowAddFamily(true)} className="btn-primary">
-                הוסף משפחה ראשונה
+                הוסף משתתף ראשון
               </button>
             </div>
           ) : (

@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#7c3aed',
+  themeColor: '#f97316',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
@@ -54,7 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }
         `}</Script>
       </head>
-      <body className={`${notoHebrew.variable} font-sans h-full bg-violet-50 text-gray-900`}>
+      <body className={`${notoHebrew.variable} font-sans h-full bg-amber-50 text-gray-900`}>
         {children}
         <ServiceWorkerRegistration />
       </body>

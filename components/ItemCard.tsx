@@ -22,9 +22,9 @@ export function ItemCardContent({
       style={familyColor ? { borderRightColor: familyColor, borderRightWidth: 3 } : {}}
     >
       <div className="flex items-center gap-2 min-w-0">
-        <span className="font-medium text-violet-900 truncate">{item.name}</span>
+        <span className="font-medium text-gray-800 truncate">{item.name}</span>
         {item.quantity > 1 && (
-          <span className="flex-shrink-0 bg-violet-100 text-violet-700 text-xs
+          <span className="flex-shrink-0 bg-orange-100 text-orange-700 text-xs
                            px-2 py-0.5 rounded-full font-semibold">
             x{item.quantity}
           </span>
@@ -38,7 +38,7 @@ export function ItemCardContent({
             onRemove(item.id)
           }}
           className="flex-shrink-0 w-6 h-6 flex items-center justify-center
-                     text-violet-200 hover:text-rose-500 hover:bg-rose-50
+                     text-gray-300 hover:text-rose-500 hover:bg-rose-50
                      rounded-lg transition-colors text-sm"
           aria-label="הסר פריט"
         >

@@ -19,7 +19,7 @@ export default function FamilyDropZone({ family, items }: FamilyDropZoneProps) {
   const removeFamily = useBBQStore((s) => s.removeFamily)
 
   async function handleRemoveFamily() {
-    if (!confirm(`האם להסיר את משפחת ${family.name}?`)) return
+    if (!confirm(`האם להסיר את ${family.name}?`)) return
     removeFamily(family.id)
     await supabase.from('families').delete().eq('id', family.id)
   }
@@ -40,7 +40,7 @@ export default function FamilyDropZone({ family, items }: FamilyDropZoneProps) {
             className="w-4 h-4 rounded-full flex-shrink-0"
             style={{ backgroundColor: family.color }}
           />
-          <h3 className="font-bold text-violet-900">{family.name}</h3>
+          <h3 className="font-bold text-gray-800">{family.name}</h3>
           <span
             className="text-xs px-2 py-0.5 rounded-full font-semibold"
             style={{ backgroundColor: family.color + '25', color: family.color }}
@@ -50,10 +50,10 @@ export default function FamilyDropZone({ family, items }: FamilyDropZoneProps) {
         </div>
         <button
           onClick={handleRemoveFamily}
-          className="text-violet-200 hover:text-rose-500 hover:bg-rose-50
+          className="text-gray-300 hover:text-rose-500 hover:bg-rose-50
                      w-6 h-6 flex items-center justify-center rounded-lg
                      transition-colors text-xs"
-          title="הסר משפחה"
+          title="הסר משתתף"
         >
           ✕
         </button>
@@ -74,11 +74,7 @@ export default function FamilyDropZone({ family, items }: FamilyDropZoneProps) {
           </div>
         ) : (
           items.map((item) => (
-            <ItemCard
-              key={item.id}
-              item={item}
-              familyColor={family.color}
-            />
+            <ItemCard key={item.id} item={item} familyColor={family.color} />
           ))
         )}
       </div>

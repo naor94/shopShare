@@ -89,7 +89,7 @@ export default function AddItemModal({ eventId, onClose }: AddItemModalProps) {
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-box" onClick={(e) => e.stopPropagation()}>
-        <h2 className="text-xl font-bold text-violet-900 mb-5">הוסף פריטים לרשימה 🛒</h2>
+        <h2 className="text-xl font-bold text-gray-800 mb-5">הוסף פריטים לרשימה 🛒</h2>
 
         <div className="flex gap-2 mb-3">
           <input
@@ -101,18 +101,18 @@ export default function AddItemModal({ eventId, onClose }: AddItemModalProps) {
             className="form-input flex-1"
             autoFocus
           />
-          <div className="flex items-center gap-1 bg-violet-50 rounded-xl px-2 border border-violet-100">
+          <div className="flex items-center gap-1 bg-orange-50 rounded-xl px-2 border border-orange-100">
             <button type="button" onClick={() => setQuantity(Math.max(1, quantity - 1))}
-              className="w-7 h-7 rounded-lg hover:bg-violet-100 font-bold transition-colors text-violet-700">−</button>
-            <span className="text-sm font-bold w-5 text-center text-violet-900">{quantity}</span>
+              className="w-7 h-7 rounded-lg hover:bg-orange-100 font-bold transition-colors text-gray-600">−</button>
+            <span className="text-sm font-bold w-5 text-center text-gray-800">{quantity}</span>
             <button type="button" onClick={() => setQuantity(quantity + 1)}
-              className="w-7 h-7 rounded-lg hover:bg-violet-100 font-bold transition-colors text-violet-700">+</button>
+              className="w-7 h-7 rounded-lg hover:bg-orange-100 font-bold transition-colors text-gray-600">+</button>
           </div>
           <button
             type="button"
             onClick={handleAddCurrent}
             disabled={!name.trim()}
-            className="px-3 py-2 rounded-xl bg-violet-100 text-violet-700 hover:bg-violet-200 font-bold text-lg disabled:opacity-30 transition-colors"
+            className="px-3 py-2 rounded-xl bg-orange-100 text-orange-700 hover:bg-orange-200 font-bold text-lg disabled:opacity-30 transition-colors"
             title="הוסף לרשימה"
           >
             +
@@ -122,13 +122,13 @@ export default function AddItemModal({ eventId, onClose }: AddItemModalProps) {
         {pending.length > 0 && (
           <div className="mb-4 space-y-1.5 max-h-36 overflow-y-auto">
             {pending.map((item, i) => (
-              <div key={i} className="flex items-center justify-between bg-violet-50 border border-violet-200 rounded-xl px-3 py-2">
-                <span className="text-sm font-medium text-violet-900">{item.name}</span>
+              <div key={i} className="flex items-center justify-between bg-orange-50 border border-orange-100 rounded-xl px-3 py-2">
+                <span className="text-sm font-medium text-gray-800">{item.name}</span>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs text-violet-600 font-bold">×{item.quantity}</span>
+                  <span className="text-xs text-orange-600 font-bold">×{item.quantity}</span>
                   <button
                     onClick={() => removePending(i)}
-                    className="text-violet-300 hover:text-rose-500 transition-colors text-base leading-none"
+                    className="text-gray-400 hover:text-rose-500 transition-colors text-base leading-none"
                   >
                     ✕
                   </button>
@@ -139,7 +139,7 @@ export default function AddItemModal({ eventId, onClose }: AddItemModalProps) {
         )}
 
         <div className="mb-5">
-          <p className="text-xs font-semibold text-violet-400 uppercase tracking-wider mb-2">הצעות מהירות — לחץ לסמן</p>
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">הצעות מהירות — לחץ לסמן</p>
           <div className="flex flex-wrap gap-2">
             {QUICK_ITEMS.map((qi) => {
               const selected = pending.some((p) => p.name === qi)
@@ -148,8 +148,8 @@ export default function AddItemModal({ eventId, onClose }: AddItemModalProps) {
                   key={qi}
                   onClick={() => toggleQuick(qi)}
                   className={selected
-                    ? 'text-sm px-3 py-1.5 rounded-xl transition-colors border bg-violet-600 text-white border-violet-600'
-                    : 'text-sm px-3 py-1.5 rounded-xl transition-colors border bg-violet-50 text-violet-700 hover:bg-violet-100 border-violet-200'}
+                    ? 'text-sm px-3 py-1.5 rounded-xl transition-colors border bg-orange-500 text-white border-orange-500'
+                    : 'text-sm px-3 py-1.5 rounded-xl transition-colors border bg-orange-50 text-orange-700 hover:bg-orange-100 border-orange-200'}
                 >
                   {selected ? '✓ ' : ''}{qi}
                 </button>
