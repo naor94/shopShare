@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bbq-planner-v1'
+const CACHE_NAME = 'shopShare-v2'
 const OFFLINE_URL = '/offline'
 
 // ─── Install ─────────────────────────────────────────────────────────────────

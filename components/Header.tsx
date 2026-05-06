@@ -30,7 +30,8 @@ export default function Header({ event, eventId }: HeaderProps) {
   }
 
   return (
-    <header className="bg-gradient-to-br from-orange-400 to-amber-500 text-white shadow-md">
+    <header className="bg-gradient-to-br from-orange-400 to-amber-500 text-white shadow-md"
+      style={{ paddingTop: 'env(safe-area-inset-top)' }}>
       <div className="max-w-7xl mx-auto px-4 py-4">
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-center gap-3">

@@ -7,8 +7,21 @@
     scroll-behavior: smooth;
   }
 
+  /* iOS Safari: remove blue flash on tap */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
   body {
     @apply antialiased;
+    /* safe-area padding for iPhone notch / home bar */
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Instant touch response — no 300ms delay */
+  button, a, [role="button"] {
+    touch-action: manipulation;
+    cursor: pointer;
   }
 
   input[type='number'] {
@@ -21,11 +34,13 @@
     @apply px-6 py-2 bg-orange-500 text-white rounded-xl font-semibold
            hover:bg-orange-600 active:bg-orange-700 disabled:opacity-50
            transition-all duration-150 shadow-sm;
+    touch-action: manipulation;
   }
 
   .btn-ghost {
     @apply px-4 py-2 text-gray-600 rounded-xl hover:bg-orange-50
            transition-all duration-150;
+    touch-action: manipulation;
   }
 
   .card {
@@ -33,11 +48,16 @@
   }
 
   .modal-overlay {
-    @apply fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4;
+    @apply fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4;
+    /* iOS: cursor:pointer required for onClick to fire on a div */
+    cursor: pointer;
+    /* safe-area padding */
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
   }
 
   .modal-box {
     @apply bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl border border-orange-100;
+    cursor: default;
   }
 
   .form-input {
@@ -45,6 +65,8 @@
            placeholder:text-gray-400
            focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent
            transition-all;
+    /* prevent iOS auto-zoom on focus (font-size must be >= 16px) */
+    font-size: 16px;
   }
 
   .item-card {

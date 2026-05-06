@@ -10,6 +10,7 @@ export default function HomePage() {
   const router = useRouter()
   const [events, setEvents] = useState<BBQEvent[]>([])
   const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState<string | null>(null)
   const [showCreate, setShowCreate] = useState(false)
   const [name, setName] = useState('')
   const [date, setDate] = useState('')
@@ -28,10 +29,14 @@ export default function HomePage() {
         .from('events')
         .select('*')
         .order('created_at', { ascending: false })
-      if (error) console.error('Load error:', error)
+      if (error) {
+        console.error('Load error:', error)
+        setLoadError(error.message)
+      }
       setEvents(data ?? [])
     } catch (e) {
       console.error('Network error:', e)
+      setLoadError(e instanceof Error ? e.message : 'שגיאת רשת')
     } finally {
       setLoading(false)
     }
@@ -79,7 +84,8 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-amber-50">
-      <header className="bg-gradient-to-br from-orange-400 to-amber-500 text-white shadow-md">
+      <header className="bg-gradient-to-br from-orange-400 to-amber-500 text-white shadow-md"
+        style={{ paddingTop: 'env(safe-area-inset-top)' }}>
         <div className="max-w-2xl mx-auto px-4 py-6 text-center">
           <div className="text-5xl mb-2">🛒</div>
           <h1 className="text-3xl font-bold tracking-tight">
@@ -96,6 +102,14 @@ export default function HomePage() {
             <span>+</span> רשימה חדשה
           </button>
         </div>
+
+        {loadError && (
+          <div className="mb-4 p-4 bg-rose-50 border border-rose-200 rounded-xl text-rose-700 text-sm">
+            <p className="font-semibold mb-1">שגיאה בטעינה</p>
+            <p className="text-xs break-all">{loadError}</p>
+            <button onClick={loadEvents} className="mt-2 text-xs underline">נסה שוב</button>
+          </div>
+        )}
 
         {loading ? (
           <div className="text-center py-16 text-gray-400">
