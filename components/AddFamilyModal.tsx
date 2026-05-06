@@ -10,7 +10,10 @@ interface AddFamilyModalProps {
   onClose: () => void
 }
 
+type ParticipantType = 'family' | 'person'
+
 export default function AddFamilyModal({ eventId, onClose }: AddFamilyModalProps) {
+  const [type, setType] = useState<ParticipantType>('family')
   const [name, setName] = useState('')
   const [loading, setLoading] = useState(false)
   const { addFamily, families } = useBBQStore()
@@ -19,6 +22,8 @@ export default function AddFamilyModal({ eventId, onClose }: AddFamilyModalProps
   const [selectedColor, setSelectedColor] = useState(
     FAMILY_COLORS.find((c) => !usedColors.includes(c)) ?? FAMILY_COLORS[0]
   )
+
+  const isFamily = type === 'family'
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -37,12 +42,48 @@ export default function AddFamilyModal({ eventId, onClose }: AddFamilyModalProps
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-box" onClick={(e) => e.stopPropagation()}>
-        <h2 className="text-xl font-bold text-gray-800 mb-5">הוסף משתתף 👤</h2>
+        <h2 className="text-xl font-bold text-gray-800 mb-4">הוסף משתתף</h2>
+
+        {/* Type toggle */}
+        <div className="flex gap-2 mb-5 bg-orange-50 p-1 rounded-xl border border-orange-100">
+          <button
+            type="button"
+            onClick={() => setType('family')}
+            className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-semibold transition-all ${
+              isFamily
+                ? 'bg-white text-gray-800 shadow-sm border border-orange-100'
+                : 'text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            <span>👨‍👩‍👧‍👦</span> משפחה
+          </button>
+          <button
+            type="button"
+            onClick={() => setType('person')}
+            className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-semibold transition-all ${
+              !isFamily
+                ? 'bg-white text-gray-800 shadow-sm border border-orange-100'
+                : 'text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            <span>👤</span> אדם
+          </button>
+        </div>
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1.5">שם</label>
-            <input type="text" value={name} onChange={(e) => setName(e.target.value)}
-              placeholder="למשל: דני" className="form-input" autoFocus required />
+            <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+              {isFamily ? 'שם המשפחה' : 'שם'}
+            </label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder={isFamily ? 'למשל: משפחת כהן' : 'למשל: דני'}
+              className="form-input"
+              autoFocus
+              required
+            />
           </div>
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">צבע</label>
@@ -64,7 +105,9 @@ export default function AddFamilyModal({ eventId, onClose }: AddFamilyModalProps
           <div className="rounded-xl p-3 flex items-center gap-2 border-2 transition-all"
             style={{ borderColor: selectedColor, backgroundColor: selectedColor + '15' }}>
             <div className="w-3 h-3 rounded-full" style={{ backgroundColor: selectedColor }} />
-            <span className="font-semibold text-gray-700">{name || 'שם המשתתף'}</span>
+            <span className="font-semibold text-gray-700">
+              {name || (isFamily ? 'שם המשפחה' : 'שם האדם')}
+            </span>
           </div>
           <div className="flex gap-3 pt-1">
             <button type="button" onClick={onClose} className="btn-ghost flex-1">ביטול</button>
