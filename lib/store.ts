@@ -1,16 +1,18 @@
 import { create } from 'zustand'
-import { BBQEvent, Family, Item } from '@/types'
+import { BBQEvent, Family, Item, Purchase } from '@/types'
 
 interface BBQStore {
   currentEvent: BBQEvent | null
   families: Family[]
   items: Item[]
+  purchases: Purchase[]
   loading: boolean
   error: string | null
 
   setCurrentEvent: (event: BBQEvent | null) => void
   setFamilies: (families: Family[]) => void
   setItems: (items: Item[]) => void
+  setPurchases: (purchases: Purchase[]) => void
   setLoading: (loading: boolean) => void
   setError: (error: string | null) => void
 
@@ -22,18 +24,23 @@ interface BBQStore {
   removeFamily: (id: string) => void
 
   assignItem: (itemId: string, familyId: string | null) => void
+
+  addPurchase: (purchase: Purchase) => void
+  removePurchase: (id: string) => void
 }
 
 export const useBBQStore = create<BBQStore>((set) => ({
   currentEvent: null,
   families: [],
   items: [],
+  purchases: [],
   loading: false,
   error: null,
 
   setCurrentEvent: (event) => set({ currentEvent: event }),
   setFamilies: (families) => set({ families }),
   setItems: (items) => set({ items }),
+  setPurchases: (purchases) => set({ purchases }),
   setLoading: (loading) => set({ loading }),
   setError: (error) => set({ error }),
 
@@ -82,5 +89,16 @@ export const useBBQStore = create<BBQStore>((set) => ({
             }
           : item,
       ),
+    })),
+
+  addPurchase: (purchase) =>
+    set((state) => {
+      if (state.purchases.find((p) => p.id === purchase.id)) return state
+      return { purchases: [...state.purchases, purchase] }
+    }),
+
+  removePurchase: (id) =>
+    set((state) => ({
+      purchases: state.purchases.filter((p) => p.id !== id),
     })),
 }))

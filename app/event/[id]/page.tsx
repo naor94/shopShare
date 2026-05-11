@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import { useBBQStore } from '@/lib/store'
-import { Item, Family } from '@/types'
+import { Item, Family, Purchase } from '@/types'
 import Header from '@/components/Header'
 import EventBoard from '@/components/EventBoard'
 
@@ -18,12 +18,15 @@ export default function EventPage() {
     setCurrentEvent,
     setFamilies,
     setItems,
+    setPurchases,
     currentEvent,
     addItem,
     updateItem,
     removeItem,
     addFamily,
     removeFamily,
+    addPurchase,
+    removePurchase,
   } = useBBQStore()
 
   useEffect(() => {
@@ -49,13 +52,15 @@ export default function EventPage() {
         }
         setCurrentEvent(event)
 
-        const [{ data: families }, { data: items }] = await Promise.all([
+        const [{ data: families }, { data: items }, { data: purchases }] = await Promise.all([
           supabase.from('families').select('*').eq('event_id', eventId).order('created_at'),
           supabase.from('items').select('*').eq('event_id', eventId).order('created_at'),
+          supabase.from('purchases').select('*').eq('event_id', eventId).order('created_at'),
         ])
 
         setFamilies(families ?? [])
         setItems(items ?? [])
+        setPurchases(purchases ?? [])
       } catch (e) {
         console.error('Load error:', e)
         setNotFound(true)
@@ -88,6 +93,14 @@ export default function EventPage() {
         (payload) => {
           if (payload.eventType === 'INSERT') addFamily(payload.new as Family)
           else if (payload.eventType === 'DELETE') removeFamily((payload.old as { id: string }).id)
+        },
+      )
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'purchases', filter: `event_id=eq.${eventId}` },
+        (payload) => {
+          if (payload.eventType === 'INSERT') addPurchase(payload.new as Purchase)
+          else if (payload.eventType === 'DELETE') removePurchase((payload.old as { id: string }).id)
         },
       )
       .subscribe()

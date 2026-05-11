@@ -23,6 +23,15 @@ export interface Item {
   created_at: string
 }
 
+export interface Purchase {
+  id: string
+  event_id: string
+  family_id: string
+  amount: number
+  description: string
+  created_at: string
+}
+
 export const FAMILY_COLORS = [
   '#ef4444',
   '#3b82f6',

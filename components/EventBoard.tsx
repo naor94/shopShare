@@ -20,6 +20,8 @@ import UnassignedZone from './UnassignedZone'
 import FamilyDropZone from './FamilyDropZone'
 import AddItemModal from './AddItemModal'
 import AddFamilyModal from './AddFamilyModal'
+import AddPurchaseModal from './AddPurchaseModal'
+import SettlementSection from './SettlementSection'
 
 interface EventBoardProps {
   eventId: string
@@ -30,6 +32,7 @@ export default function EventBoard({ eventId }: EventBoardProps) {
   const [activeItem, setActiveItem] = useState<Item | null>(null)
   const [showAddItem, setShowAddItem] = useState(false)
   const [showAddFamily, setShowAddFamily] = useState(false)
+  const [showAddPurchase, setShowAddPurchase] = useState(false)
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
@@ -109,6 +112,14 @@ export default function EventBoard({ eventId }: EventBoardProps) {
         >
           <span>👤</span> הוסף משתתף
         </button>
+        <button
+          onClick={() => setShowAddPurchase(true)}
+          className="px-5 py-2 bg-white border border-green-200 text-green-700
+                     rounded-xl font-semibold hover:bg-green-50 active:bg-green-100
+                     transition-all duration-150 shadow-sm flex items-center gap-2"
+        >
+          <span>💰</span> הוסף קנייה
+        </button>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -152,8 +163,11 @@ export default function EventBoard({ eventId }: EventBoardProps) {
         ) : null}
       </DragOverlay>
 
+      <SettlementSection eventId={eventId} onAddPurchase={() => setShowAddPurchase(true)} />
+
       {showAddItem && <AddItemModal eventId={eventId} onClose={() => setShowAddItem(false)} />}
       {showAddFamily && <AddFamilyModal eventId={eventId} onClose={() => setShowAddFamily(false)} />}
+      {showAddPurchase && <AddPurchaseModal eventId={eventId} onClose={() => setShowAddPurchase(false)} />}
     </DndContext>
   )
 }
