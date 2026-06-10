@@ -36,10 +36,9 @@ export default function FamilyDropZone({
 
   const unassignedItems = allItems.filter((i) => !i.assigned_family_id)
 
-  const handleToggleItem = (itemId: string) => {
-    setSelectedItems((prev) =>
-      prev.includes(itemId) ? prev.filter((id) => id !== itemId) : [...prev, itemId]
-    )
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selected = Array.from(e.target.selectedOptions, (option) => option.value)
+    setSelectedItems(selected)
   }
 
   const handleAddItems = async () => {
@@ -114,25 +113,20 @@ export default function FamilyDropZone({
       </div>
 
       {unassignedItems.length > 0 && (
-        <div className="border-t pt-3">
-          <p className="text-xs font-semibold text-gray-600 mb-2">הוסף פריטים:</p>
-          <div className="space-y-1 max-h-40 overflow-y-auto mb-2">
+        <div className="border-t pt-3 space-y-2">
+          <select
+            multiple
+            value={selectedItems}
+            onChange={handleSelectChange}
+            className="w-full p-2 border border-gray-300 rounded-lg text-sm bg-white"
+            size={Math.min(unassignedItems.length, 5)}
+          >
             {unassignedItems.map((item) => (
-              <label
-                key={item.id}
-                className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg cursor-pointer text-sm"
-              >
-                <input
-                  type="checkbox"
-                  checked={selectedItems.includes(item.id)}
-                  onChange={() => handleToggleItem(item.id)}
-                  className="w-4 h-4 rounded"
-                />
-                <span className="flex-1 truncate">{item.name}</span>
-                {item.quantity > 1 && <span className="text-xs text-gray-500">x{item.quantity}</span>}
-              </label>
+              <option key={item.id} value={item.id}>
+                {item.name} {item.quantity > 1 ? `x${item.quantity}` : ''}
+              </option>
             ))}
-          </div>
+          </select>
           {selectedItems.length > 0 && (
             <button
               onClick={handleAddItems}
