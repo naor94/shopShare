@@ -53,12 +53,12 @@ export function ItemCardContent({
           <button
             onClick={handleUnassign}
             className="w-6 h-6 flex items-center justify-center
-                       text-white bg-orange-400 hover:bg-orange-500
+                       text-white bg-red-400 hover:bg-red-500
                        rounded-lg transition-colors text-sm font-bold"
             aria-label="הסר מהמשפחה"
             title="הסר מהמשפחה"
           >
-            ↶
+            ❌
           </button>
         )}
         {onRemove && (
