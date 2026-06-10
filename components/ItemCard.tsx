@@ -10,7 +10,7 @@ interface ItemCardProps {
   item: Item
   familyColor?: string
   onRemove?: (id: string) => void
-  onContextMenu?: (e: React.PointerEvent) => void
+  onContextMenu?: () => void
   overlay?: boolean
 }
 
@@ -26,7 +26,7 @@ export function ItemCardContent({
       style={familyColor ? { borderRightColor: familyColor, borderRightWidth: 3 } : {}}
       onContextMenu={(e) => {
         e.preventDefault()
-        onContextMenu?.(e as any)
+        onContextMenu?.()
       }}
     >
       <div className="flex items-center gap-2 min-w-0">
@@ -67,9 +67,9 @@ export default function ItemCard({ item, familyColor, onRemove, onContextMenu, o
   const style = overlay ? {} : { transform: CSS.Translate.toString(transform) }
   const [menuOpen, setMenuOpen] = useState(false)
 
-  const handleContextMenu = (e: React.PointerEvent) => {
+  const handleContextMenu = () => {
     setMenuOpen(true)
-    onContextMenu?.(e)
+    onContextMenu?.()
   }
 
   return (

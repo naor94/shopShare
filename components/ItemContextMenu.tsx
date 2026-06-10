@@ -32,7 +32,7 @@ export default function ItemContextMenu({
     }
   }, [position])
 
-  const openMenu = (e: React.PointerEvent) => {
+  const openMenu = (e: React.MouseEvent | React.PointerEvent) => {
     e.preventDefault()
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect()
     setPosition({
@@ -41,7 +41,7 @@ export default function ItemContextMenu({
     })
   }
 
-  const handleAssign = (familyId: string) => {
+  const handleAssign = (familyId: string | null) => {
     onAssign(familyId)
     setPosition(null)
   }
@@ -54,8 +54,8 @@ export default function ItemContextMenu({
   return (
     <>
       <div
-        onContextMenu={openMenu}
-        onPointerDown={openMenu}
+        onContextMenu={(e: React.MouseEvent) => openMenu(e as any)}
+        onPointerDown={(e: React.PointerEvent) => openMenu(e as any)}
         style={{ userSelect: 'none', touchAction: 'none' }}
       >
         {/* This is a marker element, the actual content is rendered by ItemCard */}
