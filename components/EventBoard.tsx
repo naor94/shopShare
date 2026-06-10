@@ -22,6 +22,7 @@ import AddItemModal from './AddItemModal'
 import AddFamilyModal from './AddFamilyModal'
 import AddPurchaseModal from './AddPurchaseModal'
 import SettlementSection from './SettlementSection'
+import ItemContextMenu from './ItemContextMenu'
 
 interface EventBoardProps {
   eventId: string
@@ -30,6 +31,7 @@ interface EventBoardProps {
 export default function EventBoard({ eventId }: EventBoardProps) {
   const { items, families, assignItem, removeItem } = useBBQStore()
   const [activeItem, setActiveItem] = useState<Item | null>(null)
+  const [selectedItem, setSelectedItem] = useState<Item | null>(null)
   const [showAddItem, setShowAddItem] = useState(false)
   const [showAddFamily, setShowAddFamily] = useState(false)
   const [showAddPurchase, setShowAddPurchase] = useState(false)
@@ -69,6 +71,19 @@ export default function EventBoard({ eventId }: EventBoardProps) {
   async function handleRemoveItem(id: string) {
     removeItem(id)
     await supabase.from('items').delete().eq('id', id)
+  }
+
+  async function handleContextMenuAssign(familyId: string | null) {
+    if (!selectedItem) return
+    assignItem(selectedItem.id, familyId)
+    await supabase
+      .from('items')
+      .update({
+        assigned_family_id: familyId,
+        status: familyId ? 'assigned' : 'open',
+      })
+      .eq('id', selectedItem.id)
+    setSelectedItem(null)
   }
 
   const unassigned = items.filter((i) => !i.assigned_family_id)
@@ -124,7 +139,11 @@ export default function EventBoard({ eventId }: EventBoardProps) {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-1 order-first lg:order-last">
-          <UnassignedZone items={unassigned} onRemove={handleRemoveItem} />
+          <UnassignedZone
+            items={unassigned}
+            onRemove={handleRemoveItem}
+            onItemContextMenu={setSelectedItem}
+          />
         </div>
 
         <div className="lg:col-span-2">
@@ -148,6 +167,7 @@ export default function EventBoard({ eventId }: EventBoardProps) {
                   key={family.id}
                   family={family}
                   items={items.filter((i) => i.assigned_family_id === family.id)}
+                  onItemContextMenu={setSelectedItem}
                 />
               ))}
             </div>
@@ -164,6 +184,18 @@ export default function EventBoard({ eventId }: EventBoardProps) {
       </DragOverlay>
 
       <SettlementSection eventId={eventId} onAddPurchase={() => setShowAddPurchase(true)} />
+
+      {selectedItem && (
+        <ItemContextMenu
+          item={selectedItem}
+          families={families}
+          onAssign={handleContextMenuAssign}
+          onRemove={(id) => {
+            handleRemoveItem(id)
+            setSelectedItem(null)
+          }}
+        />
+      )}
 
       {showAddItem && <AddItemModal eventId={eventId} onClose={() => setShowAddItem(false)} />}
       {showAddFamily && <AddFamilyModal eventId={eventId} onClose={() => setShowAddFamily(false)} />}

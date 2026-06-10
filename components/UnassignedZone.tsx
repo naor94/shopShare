@@ -7,9 +7,10 @@ import ItemCard from './ItemCard'
 interface UnassignedZoneProps {
   items: Item[]
   onRemove: (id: string) => void
+  onItemContextMenu?: (item: Item) => void
 }
 
-export default function UnassignedZone({ items, onRemove }: UnassignedZoneProps) {
+export default function UnassignedZone({ items, onRemove, onItemContextMenu }: UnassignedZoneProps) {
   const { isOver, setNodeRef } = useDroppable({
     id: 'unassigned-zone',
     data: { type: 'unassigned' },
@@ -46,7 +47,12 @@ export default function UnassignedZone({ items, onRemove }: UnassignedZoneProps)
           </div>
         ) : (
           items.map((item) => (
-            <ItemCard key={item.id} item={item} onRemove={onRemove} />
+            <ItemCard
+              key={item.id}
+              item={item}
+              onRemove={onRemove}
+              onContextMenu={() => onItemContextMenu?.(item)}
+            />
           ))
         )}
       </div>

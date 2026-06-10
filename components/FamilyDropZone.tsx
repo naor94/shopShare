@@ -9,9 +9,10 @@ import { useBBQStore } from '@/lib/store'
 interface FamilyDropZoneProps {
   family: Family
   items: Item[]
+  onItemContextMenu?: (item: Item) => void
 }
 
-export default function FamilyDropZone({ family, items }: FamilyDropZoneProps) {
+export default function FamilyDropZone({ family, items, onItemContextMenu }: FamilyDropZoneProps) {
   const { isOver, setNodeRef } = useDroppable({
     id: family.id,
     data: { type: 'family', familyId: family.id },
@@ -74,7 +75,12 @@ export default function FamilyDropZone({ family, items }: FamilyDropZoneProps) {
           </div>
         ) : (
           items.map((item) => (
-            <ItemCard key={item.id} item={item} familyColor={family.color} />
+            <ItemCard
+              key={item.id}
+              item={item}
+              familyColor={family.color}
+              onContextMenu={() => onItemContextMenu?.(item)}
+            />
           ))
         )}
       </div>
