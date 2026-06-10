@@ -35,8 +35,8 @@ export default function EventBoard({ eventId }: EventBoardProps) {
   const [showAddPurchase, setShowAddPurchase] = useState(false)
 
   const sensors = useSensors(
+    useSensor(TouchSensor, { activationConstraint: { delay: 100, tolerance: 5 } }),
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
-    useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 8 } }),
   )
 
   function handleDragStart({ active }: DragStartEvent) {
