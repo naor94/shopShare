@@ -167,6 +167,7 @@ export default function EventBoard({ eventId }: EventBoardProps) {
                   key={family.id}
                   family={family}
                   items={items.filter((i) => i.assigned_family_id === family.id)}
+                  allItems={items}
                   onItemContextMenu={setSelectedItem}
                 />
               ))}
