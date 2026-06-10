@@ -28,6 +28,14 @@ export default function FamilyDropZone({
   const assignItem = useBBQStore((s) => s.assignItem)
   const [selectedItems, setSelectedItems] = useState<string[]>([])
 
+  async function handleUnassignItem(itemId: string) {
+    assignItem(itemId, null)
+    await supabase
+      .from('items')
+      .update({ assigned_family_id: null, status: 'open' })
+      .eq('id', itemId)
+  }
+
   async function handleRemoveFamily() {
     if (!confirm(`האם להסיר את ${family.name}?`)) return
     removeFamily(family.id)
@@ -106,6 +114,7 @@ export default function FamilyDropZone({
               key={item.id}
               item={item}
               familyColor={family.color}
+              onUnassign={handleUnassignItem}
               onContextMenu={() => onItemContextMenu?.(item)}
             />
           ))
